@@ -3,11 +3,11 @@ var youtubePrefix = 'https://www.youtube.com/embed/';
 var VideoPlayer = (props) => (
   <div className="video-player">
     <div className="embed-responsive embed-responsive-16by9">
-      <iframe className="embed-responsive-item" src={youtubePrefix + props.video.id.videoId} allowFullScreen></iframe>
+      <iframe className="embed-responsive-item" src={youtubePrefix + props.currVideo.id.videoId} allowFullScreen></iframe>
     </div>
     <div className="video-player-details">
-      <h3>{props.video.snippet.title}</h3>
-      <div>{props.video.snippet.description}</div>
+      <h3>{props.currVideo.snippet.title}</h3>
+      <div>{props.currVideo.snippet.description}</div>
     </div>
   </div>
 );

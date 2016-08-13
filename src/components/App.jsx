@@ -2,20 +2,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: window.exampleVideoData,
+      currentVideo: window.exampleVideoData[0],
     };
   }
 
+  stateDidUpdate() {
+    console.log("state", this.state);
+  }
+
+  handleUserInput(event) {
+    var currVideo;
+    window.exampleVideoData.forEach(function(video) {
+      if (event.currentTarget.innerHTML === video.snippet.title) {
+        currVideo = video;
+      }
+    });
+
+    this.setState({
+      currentVideo: currVideo,
+    });
+  }
 
   render() {
+    // console.log(this)
     return (
       <div>
         <Nav />
         <div className="col-md-7">
-          <VideoPlayer video={window.exampleVideoData[0]}/>
+          <VideoPlayer currVideo={this.state.currentVideo}/>
         </div>
         <div className="col-md-5">
-          <VideoList videos={window.exampleVideoData}/>
+          <VideoList videos={window.exampleVideoData} handler={this.handleUserInput.bind(this)} />
         </div>
       </div>    
     );
