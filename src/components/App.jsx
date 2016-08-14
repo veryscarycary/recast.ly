@@ -2,37 +2,55 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      videos: window.exampleVideoData,
       currentVideo: window.exampleVideoData[0],
     };
   }
 
-  stateDidUpdate() {
-    console.log("state", this.state);
-  }
-
-  handleUserInput(event) {
-    var currVideo;
-    window.exampleVideoData.forEach(function(video) {
-      if (event.currentTarget.innerHTML === video.snippet.title) {
-        currVideo = video;
-      }
-    });
+  handleUserInput(video) {
 
     this.setState({
-      currentVideo: currVideo,
+      currentVideo: video,
     });
+  }
+
+  // searchYouTube({
+  //   key: "AIzaSyDQTTw2fD9IE42iLfHTo0ffZP_iyeMPgNk",
+  //   maxResults: 5,
+  //   q: "fluffy kitties",
+  // }, (videos) =>
+  //   this.setState({
+  //     videos: videos,
+  //     currentVideo: videos[0]
+  //   })
+  // );
+
+  getYouTubeVideos(query) {
+    var options = {
+      key: this.props.API_KEY,
+      query: query
+    };
+
+    this.props.searchYouTube(options, (videos) =>
+      this.setState({
+        videos: videos,
+        currentVideo: videos[0]
+      })
+    );
   }
 
   render() {
     // console.log(this)
     return (
       <div>
-        <Nav />
+        <Nav
+          handleSearchInputChange={this.getYouTubeVideos.bind(this)}
+        />
         <div className="col-md-7">
           <VideoPlayer currVideo={this.state.currentVideo}/>
         </div>
         <div className="col-md-5">
-          <VideoList videos={window.exampleVideoData} handler={this.handleUserInput.bind(this)} />
+          <VideoList videos={this.state.videos} handler={this.handleUserInput.bind(this)} />
         </div>
       </div>    
     );
